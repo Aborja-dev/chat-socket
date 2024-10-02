@@ -1,0 +1,107 @@
+
+```markdown
+# Chat en Tiempo Real con Socket.IO y Supabase
+
+Este proyecto es una aplicación de chat en tiempo real desarrollada con **Socket.IO** para la comunicación en tiempo real entre usuarios y **Supabase** para la persistencia de datos en la base de datos. Los usuarios pueden unirse a salas de chat y enviar mensajes en tiempo real, mientras que los mensajes se almacenan en Supabase para su posterior consulta.
+
+## Características
+
+- **Comunicación en tiempo real**: Utiliza Socket.IO para enviar y recibir mensajes instantáneamente entre usuarios.
+- **Persistencia de datos**: Los mensajes se almacenan en una base de datos proporcionada por Supabase.
+- **Salas de chat**: Los usuarios pueden unirse a diferentes salas de chat.
+- **Interfaz intuitiva**: Diseño sencillo y fácil de usar.
+
+## Requisitos Previos
+
+Antes de comenzar, asegúrate de tener instalados los siguientes componentes:
+
+- [Node.js](https://nodejs.org/) (v14 o superior)
+- Una cuenta en [Supabase](https://supabase.com/)
+- Un proyecto creado en Supabase con una tabla para almacenar los mensajes de chat.
+
+### Configuración de Supabase
+
+1. Crea una tabla en Supabase para almacenar los mensajes de chat con la siguiente estructura:
+
+   ```sql
+   CREATE TABLE messages (
+     id SERIAL PRIMARY KEY,
+     username VARCHAR(255),
+     message TEXT,
+     created_at TIMESTAMPTZ DEFAULT NOW()
+   );
+   ```
+
+2. Obtén la URL del proyecto y la clave pública (`anon key`) desde el panel de Supabase.
+
+## Instalación
+
+1. Clona el repositorio:
+
+   ```bash
+   git clone https://github.com/tu-usuario/chat-tiempo-real.git
+   ```
+
+2. Ve al directorio del proyecto:
+
+   ```bash
+   cd chat-tiempo-real
+   ```
+
+3. Instala las dependencias:
+
+   ```bash
+   npm install
+   ```
+
+4. Crea un archivo `.env` en la raíz del proyecto y añade las variables de entorno para conectar con Supabase:
+
+   ```env
+   SUPABASE_URL=tu-supabase-url
+   SUPABASE_ANON_KEY=tu-supabase-anon-key
+   ```
+
+5. Inicia el servidor:
+
+   ```bash
+   npm start
+   ```
+
+## Uso
+
+1. Abre la aplicación en tu navegador en [http://localhost:3000](http://localhost:3000).
+2. Ingresa un nombre de usuario, elige una sala de chat y comienza a chatear.
+3. Los mensajes se enviarán en tiempo real y se almacenarán en Supabase para referencia futura.
+
+## Estructura del Proyecto
+
+```
+│   .env.example          # Ejemplo de archivo de variables de entorno
+│   .gitignore            # Archivos y carpetas a ignorar por Git
+│   arbol_de_archivos.txt # Archivo con el listado del árbol de archivos
+│   index.js              # Archivo principal del proyecto
+│   package.json          # Dependencias y scripts del proyecto
+│   pnpm-lock.yaml        # Archivo de bloqueo de dependencias para pnpm
+│   readme                # Archivo README del proyecto
+│
+├───db
+│   └─── supabase.js      # Configuración de la base de datos Supabase
+│
+└───public
+    └─── home.html        # Página HTML pública
+```
+
+## Contribuir
+
+¡Las contribuciones son bienvenidas! Si quieres mejorar esta aplicación, sigue estos pasos:
+
+1. Haz un fork del repositorio.
+2. Crea una nueva rama (`git checkout -b feature-nueva-caracteristica`).
+3. Realiza tus cambios y haz un commit (`git commit -m 'Añadir nueva característica'`).
+4. Haz push a la rama (`git push origin feature-nueva-caracteristica`).
+5. Abre un Pull Request.
+
+## Licencia
+
+Este proyecto está bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para obtener más detalles.
+```

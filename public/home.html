@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicación de Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .message p {
+            margin: 0;
+        }
+        .chat-container {
+            width: 400px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            height: 500px;
+        }
+
+        .chat-header {
+            background-color: #6200ea;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .chat-window {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #e1f5fe;
+        }
+
+        .message.sent {
+            background-color: #b2ff59;
+            align-self: flex-end;
+        }
+
+        .message.received {
+            background-color: #fff9c4;
+            align-self: flex-start;
+        }
+
+        .chat-input {
+            display: flex;
+            border-top: 1px solid #ddd;
+            background-color: #fafafa;
+            padding: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        .chat-input button {
+            background-color: #6200ea;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin-left: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .chat-input button:hover {
+            background-color: #3700b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="chat-header">
+        <h2>Chat</h2>
+    </div>
+
+    <div class="chat-window" id="chatWindow">
+        <div class="message received">
+            ¡Hola! ¿Cómo estás?
+        </div>
+        <div class="message sent">
+            ¡Hola! Estoy bien, ¿y tú?
+        </div>
+    </div>
+
+    <div class="chat-input">
+        <form id="messageForm">
+            <input type="text" id="messageInput" placeholder="Escribe un mensaje...">
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+</div>
+<script type="module" defer>
+    // importar el cliente de socket
+    import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
+
+    // inicializar el socket
+    
+    const $form = document.getElementById('messageForm');
+    const $input = document.getElementById('messageInput');
+    const $chatWindow = document.getElementById('chatWindow');
+    const getUserName = async () => {
+        const username = window.localStorage.getItem('username');
+        if (username) {
+            console.log(`Welcome back, ${username}!`);
+        }
+        const res = await fetch('https://random-data-api.com/api/v2/users');
+        const {username: randomUsername} = await res.json();
+        localStorage.setItem('username', randomUsername);
+        return randomUsername;
+    }
+    const socket = io({
+        auth: {
+            username: await getUserName(),
+            serverOffset: 0
+        } // <-- inicializar el offset del socket en 0
+    });
+    $form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const message = $input.value;
+        // enviar el evento 'chat-message' al socket
+        // el evento se llama 'chat-message' y se envía el mensaje
+        socket.emit('chat-message', message);
+        $input.value = '';
+    });
+    const createNewMessageItem = (message, username) => {
+        const newElement = `
+            <div class="message sent">
+                <p>${message}</p>
+                <small>${username}</small>
+            </div>
+        `
+        console.log('username', username);
+        const $message = document.createElement('div');
+        $message.innerHTML = newElement;
+        $chatWindow.appendChild($message);
+    }
+    // escuchar el evento 'chat-message' del socket
+    socket.on('chat-message', (message, serverOffset, username) => {
+        console.log('message from server', message, serverOffset);
+        createNewMessageItem(message, username);
+        // actualizar el offset con el id del ultimo mensaje que recibio el socket
+        socket.auth.serverOffset = serverOffset
+        // hacer scroll hacia abajo al enviar el mensaje
+        $chatWindow.scrollTop = $chatWindow.scrollHeight;
+    });
+  </script>
+
+</body>
+</html>

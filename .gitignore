@@ -1,0 +1,56 @@
+# Archivos generales
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+*.DS_Store
+
+# Navegador
+*.cache
+*.localstorage
+*.sessionstore
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-error.log
+yarn.lock
+
+# Dependencias
+bower_components/
+
+# Archivos de configuración
+.env
+config.json
+config.js
+config.py
+
+# Archivos de build
+build/
+dist/
+*.min.js
+*.min.css
+
+# Archivos temporales
+*.temp
+*.temporal
+
+# Archivos de desarrollo
+.vscode/
+.idea/
+*.iml
+
+# Archivos de compilación
+*.class
+*.exe
+*.dll
+*.so
+*.dylib
+*.jar
+*.war
+*.ear
+
+# Archivos de caché
+*.cache
+*.cache/*
