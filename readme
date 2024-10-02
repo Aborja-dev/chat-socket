@@ -1,5 +1,4 @@
 
-```markdown
 # Chat en Tiempo Real con Socket.IO y Supabase
 
 Este proyecto es una aplicación de chat en tiempo real desarrollada con **Socket.IO** para la comunicación en tiempo real entre usuarios y **Supabase** para la persistencia de datos en la base de datos. Los usuarios pueden unirse a salas de chat y enviar mensajes en tiempo real, mientras que los mensajes se almacenan en Supabase para su posterior consulta.
@@ -104,4 +103,3 @@ Antes de comenzar, asegúrate de tener instalados los siguientes componentes:
 ## Licencia
 
 Este proyecto está bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para obtener más detalles.
-```
